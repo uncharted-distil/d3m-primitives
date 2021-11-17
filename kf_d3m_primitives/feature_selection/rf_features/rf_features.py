@@ -10,7 +10,7 @@ from d3m.container import DataFrame as d3m_DataFrame
 from d3m.metadata import hyperparams, base as metadata_base, params
 
 __author__ = "Distil"
-__version__ = "3.1.2"
+__version__ = "3.1.3"
 __contact__ = "mailto:cbethune@uncharted.software"
 
 Inputs = container.pandas.DataFrame
@@ -59,14 +59,14 @@ class RfFeaturesPrimitive(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
                 "name": __author__,
                 "contact": __contact__,
                 "uris": [
-                    "https://github.com/kungfuai/d3m-primitives",
+                    "https://github.com/uncharted-distil/d3m-primitives",
                 ],
             },
             "installation": [
                 {"type": "PIP", "package": "cython", "version": "0.29.16"},
                 {
                     "type": metadata_base.PrimitiveInstallationType.PIP,
-                    "package_uri": "git+https://github.com/kungfuai/d3m-primitives.git@{git_commit}#egg=kf-d3m-primitives".format(
+                    "package_uri": "git+https://github.com/uncharted-distil/d3m-primitives.git@{git_commit}#egg=kf-d3m-primitives".format(
                         git_commit=utils.current_git_commit(os.path.dirname(__file__)),
                     ),
                 },

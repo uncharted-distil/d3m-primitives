@@ -20,7 +20,7 @@ from d3m.primitive_interfaces.supervised_learning import SupervisedLearnerPrimit
 from .gem import linear_gem, segmented_gem, thread_helper_gem
 
 __author__ = "Distil"
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __contact__ = "mailto:cbethune@uncharted.software"
 
 Inputs = container.DataFrame
@@ -119,14 +119,14 @@ class ImageRetrievalPrimitive(
                 "name": __author__,
                 "contact": __contact__,
                 "uris": [
-                    "https://github.com/kungfuai/d3m-primitives",
+                    "https://github.com/uncharted-distil/d3m-primitives",
                 ],
             },
             "installation": [
                 {"type": "PIP", "package": "cython", "version": "0.29.16"},
                 {
                     "type": metadata_base.PrimitiveInstallationType.PIP,
-                    "package_uri": "git+https://github.com/kungfuai/d3m-primitives.git@{git_commit}#egg=kf-d3m-primitives".format(
+                    "package_uri": "git+https://github.com/uncharted-distil/d3m-primitives.git@{git_commit}#egg=kf-d3m-primitives".format(
                         git_commit=utils.current_git_commit(os.path.dirname(__file__)),
                     ),
                 },

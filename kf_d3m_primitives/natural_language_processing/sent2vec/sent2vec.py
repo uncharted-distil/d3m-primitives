@@ -11,7 +11,7 @@ from d3m.container import DataFrame as d3m_DataFrame
 from d3m.metadata import hyperparams, base as metadata_base, params
 
 __author__ = "Distil"
-__version__ = "1.3.0"
+__version__ = "1.3.1"
 __contact__ = "mailto:cbethune@uncharted.software"
 
 Inputs = container.pandas.DataFrame
@@ -45,13 +45,13 @@ class Sent2VecPrimitive(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
             "source": {
                 "name": __author__,
                 "contact": __contact__,
-                "uris": ["https://github.com/kungfuai/d3m-primitives"],
+                "uris": ["https://github.com/uncharted-distil/d3m-primitives"],
             },
             "installation": [
                 {"type": "PIP", "package": "cython", "version": "0.29.16"},
                 {
                     "type": metadata_base.PrimitiveInstallationType.PIP,
-                    "package_uri": "git+https://github.com/kungfuai/d3m-primitives.git@{git_commit}#egg=kf-d3m-primitives".format(
+                    "package_uri": "git+https://github.com/uncharted-distil/d3m-primitives.git@{git_commit}#egg=kf-d3m-primitives".format(
                         git_commit=utils.current_git_commit(os.path.dirname(__file__)),
                     ),
                 },

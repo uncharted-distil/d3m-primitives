@@ -20,7 +20,7 @@ from d3m.metadata import hyperparams, base as metadata_base, params
 import tensorflow as tf
 
 __author__ = "Distil"
-__version__ = "1.2.3"
+__version__ = "1.2.4"
 __contact__ = "mailto:cbethune@uncharted.software"
 
 logger = logging.getLogger(__name__)
@@ -260,14 +260,14 @@ class SimonPrimitive(
                 "name": __author__,
                 "contact": __contact__,
                 "uris": [
-                    "https://github.com/kungfuai/d3m-primitives",
+                    "https://github.com/uncharted-distil/d3m-primitives",
                 ],
             },
             "installation": [
                 {"type": "PIP", "package": "cython", "version": "0.29.16"},
                 {
                     "type": metadata_base.PrimitiveInstallationType.PIP,
-                    "package_uri": "git+https://github.com/kungfuai/d3m-primitives.git@{git_commit}#egg=kf-d3m-primitives".format(
+                    "package_uri": "git+https://github.com/uncharted-distil/d3m-primitives.git@{git_commit}#egg=kf-d3m-primitives".format(
                         git_commit=utils.current_git_commit(os.path.dirname(__file__)),
                     ),
                 },

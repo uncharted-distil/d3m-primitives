@@ -18,7 +18,7 @@ from d3m.container import DataFrame as d3m_DataFrame
 from ..utils.geocoding import check_geocoding_server
 
 __author__ = "Distil"
-__version__ = "1.0.8"
+__version__ = "1.0.9"
 __contact__ = "mailto:cbethune@uncharted.software"
 
 
@@ -95,13 +95,13 @@ class GoatReversePrimitive(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams
             "source": {
                 "name": __author__,
                 "contact": __contact__,
-                "uris": ["https://github.com/kungfuai/d3m-primitives"],
+                "uris": ["https://github.com/uncharted-distil/d3m-primitives"],
             },
             "installation": [
                 {"type": "PIP", "package": "cython", "version": "0.29.16"},
                 {
                     "type": metadata_base.PrimitiveInstallationType.PIP,
-                    "package_uri": "git+https://github.com/kungfuai/d3m-primitives.git@{git_commit}#egg=kf-d3m-primitives".format(
+                    "package_uri": "git+https://github.com/uncharted-distil/d3m-primitives.git@{git_commit}#egg=kf-d3m-primitives".format(
                         git_commit=utils.current_git_commit(os.path.dirname(__file__)),
                     ),
                 },
