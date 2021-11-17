@@ -24,7 +24,7 @@ from object_detection_retinanet.utils.image import (
 )
 
 __author__ = "Distil"
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __contact__ = "mailto:cbethune@uncharted.software"
 
 Inputs = container.pandas.DataFrame
@@ -144,14 +144,14 @@ class ObjectDetectionRNPrimitive(PrimitiveBase[Inputs, Outputs, Params, Hyperpar
                 "name": __author__,
                 "contact": __contact__,
                 "uris": [
-                    "https://github.com/kungfuai/d3m-primitives",
+                    "https://github.com/uncharted-distil/d3m-primitives",
                 ],
             },
             "installation": [
                 {"type": "PIP", "package": "cython", "version": "0.29.16"},
                 {
                     "type": metadata_base.PrimitiveInstallationType.PIP,
-                    "package_uri": "git+https://github.com/kungfuai/d3m-primitives.git@{git_commit}#egg=kf-d3m-primitives".format(
+                    "package_uri": "git+https://github.com/uncharted-distil/d3m-primitives.git@{git_commit}#egg=kf-d3m-primitives".format(
                         git_commit=utils.current_git_commit(os.path.dirname(__file__)),
                     ),
                 },

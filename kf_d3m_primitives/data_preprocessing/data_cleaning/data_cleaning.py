@@ -8,7 +8,7 @@ from d3m import container, utils
 from d3m.metadata import hyperparams, base as metadata_base
 
 __author__ = "Distil"
-__version__ = "3.0.2"
+__version__ = "3.0.3"
 __contact__ = "mailto:cbethune@uncharted.software"
 
 Inputs = container.pandas.DataFrame
@@ -37,7 +37,7 @@ class DataCleaningPrimitive(TransformerPrimitiveBase[Inputs, Outputs, Hyperparam
                 "contact": __contact__,
                 "uris": [
                     # Unstructured URIs.
-                    "https://github.com/kungfuai/d3m-primitives",
+                    "https://github.com/uncharted-distil/d3m-primitives",
                 ],
             },
             # A list of dependencies in order. These can be Python packages, system packages, or Docker images.
@@ -48,7 +48,7 @@ class DataCleaningPrimitive(TransformerPrimitiveBase[Inputs, Outputs, Hyperparam
                 {"type": "PIP", "package": "cython", "version": "0.29.16"},
                 {
                     "type": metadata_base.PrimitiveInstallationType.PIP,
-                    "package_uri": "git+https://github.com/kungfuai/d3m-primitives.git@{git_commit}#egg=kf-d3m-primitives".format(
+                    "package_uri": "git+https://github.com/uncharted-distil/d3m-primitives.git@{git_commit}#egg=kf-d3m-primitives".format(
                         git_commit=utils.current_git_commit(os.path.dirname(__file__)),
                     ),
                 },
