@@ -123,7 +123,7 @@ class ImageRetrievalPrimitive(
                 ],
             },
             "installation": [
-                {"type": "PIP", "package": "cython", "version": "0.29.16"},
+                {"type": "PIP", "package": "cython", "version": "0.29.24"},
                 {
                     "type": metadata_base.PrimitiveInstallationType.PIP,
                     "package_uri": "git+https://github.com/uncharted-distil/d3m-primitives.git@{git_commit}#egg=kf-d3m-primitives".format(
