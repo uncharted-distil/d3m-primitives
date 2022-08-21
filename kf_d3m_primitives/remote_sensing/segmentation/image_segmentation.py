@@ -275,7 +275,8 @@ class ImageSegmentationPrimitive(
         all_preds = []
         for batch in tqdm(test_loader):
             inputs = batch[0].to(self.device)
-            preds = model.predict(inputs).squeeze()
+            preds = model.predict(inputs)
+            preds = preds[:, :, :, 0]
             preds = preds[:, self.pad : -self.pad, self.pad : -self.pad]
             all_preds.append(preds.detach().cpu().numpy())
         all_preds = np.vstack(all_preds)
@@ -284,7 +285,7 @@ class ImageSegmentationPrimitive(
         return CallResult(preds_df)
 
     def _load_data(self, inputs, outputs):
-        """ load data for training """
+        """load data for training"""
 
         imgs = self._get_imgs(inputs)
 
@@ -308,7 +309,7 @@ class ImageSegmentationPrimitive(
         self.val_loader = self._prepare_loader(imgs_val, labels_val, shuffle=False)
 
     def _get_imgs(self, inputs):
-        """ get column of imgs from dataset """
+        """get column of imgs from dataset"""
 
         if len(self.hyperparams["use_columns"]) == 0:
             image_cols = inputs.metadata.get_columns_with_semantic_type(
@@ -328,13 +329,18 @@ class ImageSegmentationPrimitive(
         if self.hyperparams["decompress_data"]:
             imgs = [self._decompress(img) for img in imgs]
 
-        self.pad = (128 - imgs[0].shape[1]) // 2
+        # Partial fix - only works with equal x and y sizes.  Need to update padding code to
+        # work with rectangular images properly.
+        image_size = imgs[0].shape[1]
+        target_image_size = 1 << (image_size - 1).bit_length()
+
+        self.pad = (target_image_size - image_size) // 2
         imgs = np.stack([self._prepare_img(img) for img in imgs])
 
         return imgs
 
     def _decompress(self, img):
-        """ decompress image """
+        """decompress image"""
         compressed_bytes = img.tobytes()
         decompressed_bytes = lz4.frame.decompress(compressed_bytes)
         storage_type, shape_0, shape_1, shape_2 = struct.unpack(
@@ -345,7 +351,7 @@ class ImageSegmentationPrimitive(
         return img
 
     def _prepare_img(self, img):
-        """ normalize and pad image """
+        """normalize and pad image"""
         img = img[:12].transpose(1, 2, 0) / 10_000
         img = sentinel_augmentation_valid()(image=img)["image"]
         img = torch.nn.functional.pad(
@@ -354,7 +360,7 @@ class ImageSegmentationPrimitive(
         return torch.FloatTensor(img)
 
     def _prepare_loader(self, inputs, outputs=None, shuffle=True):
-        """ prepare data loader """
+        """prepare data loader"""
 
         inputs = torch.FloatTensor(inputs)
 
@@ -370,7 +376,7 @@ class ImageSegmentationPrimitive(
         return data_loader
 
     def _create_model(self):
-        """ construct Unet segmentation model """
+        """construct Unet segmentation model"""
 
         self.model = Unet(
             encoder_weights=self.volumes["moco_weights"], device=self.device
@@ -380,7 +386,7 @@ class ImageSegmentationPrimitive(
             self.model.load_state_dict(torch.load(self.hyperparams["weights_filepath"]))
 
     def _compile_model(self):
-        """ construct loss function, optimizer, and learning rate scheduler """
+        """construct loss function, optimizer, and learning rate scheduler"""
 
         self.loss = BinaryFocalLoss()
         self.optimizer = torch.optim.Adam(
@@ -391,7 +397,7 @@ class ImageSegmentationPrimitive(
         )
 
     def _train(self, epochs, initial_epoch=0):
-        """ train model """
+        """train model"""
 
         if epochs == 0:
             return 0
@@ -466,7 +472,7 @@ class ImageSegmentationPrimitive(
         return epoch + 1
 
     def _loss(self, batch):
-        """ compute loss and accuracy on batch """
+        """compute loss and accuracy on batch"""
         inputs = batch[0].to(self.device)
         labels = batch[1].to(self.device)
         outputs = self.model(inputs)
@@ -481,7 +487,7 @@ class ImageSegmentationPrimitive(
         return loss, acc
 
     def _prepare_d3m_df(self, all_preds):
-        """ prepare d3m dataframe with appropriate metadata """
+        """prepare d3m dataframe with appropriate metadata"""
 
         all_preds = [preds.tolist() for preds in all_preds]
         preds_df = pd.DataFrame({f"{self._positive_class}_mask": all_preds})
